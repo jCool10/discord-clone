@@ -26,7 +26,7 @@ This is a repository for Fullstack Discord Clone: Next.js, Socket.io, Tailwind C
 1. Clone the repository
 
 ```bash
-git clone
+git clone https://github.com/jCool10/discord-clone.git
 ```
 
 2. Install dependencies
