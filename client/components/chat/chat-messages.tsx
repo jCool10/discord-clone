@@ -67,7 +67,6 @@ export const ChatMessages = ({
     loadMore: fetchNextPage,
     shouldLoadMore: !isFetchingNextPage && !!hasNextPage,
     count: data?.pages?.[0]?.data.data.items?.length ?? 0,
-    // count: data?.pages?.[0]?.items?.length ?? 0,
   });
 
   if (status === "loading") {

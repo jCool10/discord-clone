@@ -7,8 +7,6 @@ class conversationService {
       const profile = req.profile
       const { memberOneId, memberTwoId } = req.body
 
-      console.log(memberOneId, memberTwoId)
-
       let conversation = await db.conversation.findFirst({
         where: {
           OR: [
@@ -29,10 +27,8 @@ class conversationService {
           }
         }
       })
-      console.log(conversation)
 
       if (!conversation) {
-        console.log('create new conversation')
         conversation = await db.conversation.create({
           data: {
             memberOneId,
@@ -52,8 +48,6 @@ class conversationService {
           }
         })
       }
-
-      console.log(conversation)
 
       return { conversation, profile }
     } catch (error) {

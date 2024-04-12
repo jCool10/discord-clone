@@ -1,25 +1,21 @@
 import express from 'express'
-import { router } from './routes'
 import { notFoundError, returnError } from './middlewares/errorHandle.middleware'
 import { expressConfig } from './configs/express.config'
-import { createRouteHandler } from 'uploadthing/express'
-import { uploadRouter } from './uploadthing'
+import http from 'http'
+import { socketConfig } from './configs/socket.config'
+import routes from './routes'
 
 const app = express()
+const server = http.createServer(app)
 
 expressConfig(app)
 
-app.use('/api', router)
+socketConfig(server)
 
-app.use(
-  '/api/uploadthing',
-  createRouteHandler({
-    router: uploadRouter
-  })
-)
+routes(app)
 
 app.use(notFoundError)
 
 app.use(returnError)
 
-export default app
+export default server

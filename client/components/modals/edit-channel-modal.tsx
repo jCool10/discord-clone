@@ -34,6 +34,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect } from "react";
+import { http } from "@/utils/http";
 
 const formSchema = z.object({
   name: z
@@ -79,7 +80,7 @@ export const EditChannelModal = () => {
           serverId: server?.id,
         },
       });
-      await axios.patch(url, values);
+      await http.patch(url, values);
 
       form.reset();
       router.refresh();

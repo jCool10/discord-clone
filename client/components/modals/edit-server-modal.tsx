@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
+import { http } from "@/utils/http";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -63,7 +64,7 @@ export const EditServerModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/servers/${server?.id}`, values);
+      await http.patch(`/api/servers/${server?.id}`, values);
 
       form.reset();
       router.refresh();
