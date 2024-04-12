@@ -1,28 +1,35 @@
-import express from 'express'
+import { Application } from 'express'
 import { ChannelsRouter } from './channels.route'
 import { DirectMessagesRouter } from './directMessages.route'
 import { MembersRouter } from './members.route'
 import { MessagesRouter } from './messages.route'
 import { ServersRouter } from './servers.route'
 import { LivekitRouter } from './livekit.route'
-import { UploadthingRouter } from './uploadthing.route'
 import { authentication } from '~/utils/auth.util'
 import { ProfileRouter } from './profile.route'
 import { ConversationRouter } from './conversation.route'
+import { SocketRouter } from './socket.route'
+import { createRouteHandler } from 'uploadthing/express'
+import { uploadRouter } from '~/uploadthing'
 
-const router = express.Router()
+export default function routes(app: Application) {
+  app.use('/api/profile', ProfileRouter)
 
-router.use('/profile', ProfileRouter)
+  app.use(authentication)
 
-router.use(authentication)
-
-router
-  .use('/channels', ChannelsRouter)
-  .use('/direct-messages', DirectMessagesRouter)
-  .use('/members', MembersRouter)
-  .use('/messages', MessagesRouter)
-  .use('/servers', ServersRouter)
-  .use('/livekit', LivekitRouter)
-  .use('/conversation', ConversationRouter)
-
-export { router }
+  app
+    .use('/api/channels', ChannelsRouter)
+    .use('/api/direct-messages', DirectMessagesRouter)
+    .use('/api/members', MembersRouter)
+    .use('/api/messages', MessagesRouter)
+    .use('/api/servers', ServersRouter)
+    .use('/api/livekit', LivekitRouter)
+    .use('/api/conversation', ConversationRouter)
+    .use('/api/socket', SocketRouter)
+    .use(
+      '/api/uploadthing',
+      createRouteHandler({
+        router: uploadRouter
+      })
+    )
+}

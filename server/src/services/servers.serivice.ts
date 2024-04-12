@@ -2,7 +2,7 @@ import { MemberRole } from '@prisma/client'
 import { Request } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import { db } from '~/configs/prisma.config'
-import { BadRequestError } from '~/core/error.response'
+import { BadRequestError, NotFoundError } from '~/core/error.response'
 
 class servicesService {
   createServer = async (req: Request) => {
@@ -122,7 +122,9 @@ class servicesService {
       }
     })
 
-    return server || {}
+    if (!server) throw new NotFoundError('Server not found')
+
+    return server
   }
 
   findServersByProfile = async (req: Request) => {
@@ -166,16 +168,14 @@ class servicesService {
       }
     })
 
-    console.log('server', server)
+    if (!server) throw new NotFoundError('Server not found')
 
-    return server || {}
+    return server
   }
 
   getServerAndProfileById = async (req: Request) => {
     const profile = req.profile
     const { serverId } = req.params
-
-    console.log(serverId)
 
     const server = await db.server.findUnique({
       where: {
@@ -199,8 +199,6 @@ class servicesService {
     })
 
     if (!server) throw new BadRequestError('Server not found')
-
-    console.log(server)
 
     return { server, profile }
   }

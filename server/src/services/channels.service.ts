@@ -1,15 +1,13 @@
 import { MemberRole } from '@prisma/client'
 import { Request } from 'express'
 import { db } from '~/configs/prisma.config'
-import { BadRequestError } from '~/core/error.response'
+import { BadRequestError, NotFoundError } from '~/core/error.response'
 
 class channelsService {
   createChannel = async (req: Request) => {
     const { name, type } = req.body
     const profile = req.profile
     const { serverId } = req.query as { serverId: string }
-
-    console.log(serverId, name, type, profile.id)
 
     const server = await db.server.update({
       where: {
@@ -120,9 +118,11 @@ class channelsService {
       }
     })
 
-    console.log(channel)
+    if (!channel) {
+      throw new NotFoundError('Channel not found')
+    }
 
-    return channel || {}
+    return channel
   }
 }
 

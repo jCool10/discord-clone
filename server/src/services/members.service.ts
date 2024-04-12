@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import { db } from '~/configs/prisma.config'
-import { BadRequestError } from '~/core/error.response'
+import { BadRequestError, NotFoundError } from '~/core/error.response'
 
 class membersService {
   deleteMember = async (req: Request) => {
@@ -99,7 +99,9 @@ class membersService {
       }
     })
 
-    return member || {}
+    if (!member) throw new NotFoundError('Member not found')
+
+    return member
   }
 }
 

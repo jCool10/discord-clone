@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
+import { http } from "@/utils/http";
 
 const formSchema = z.object({
   fileUrl: z.string().min(1, {
@@ -54,7 +55,7 @@ export const MessageFileModal = () => {
         query,
       });
 
-      await axios.post(url, {
+      await http.post(url, {
         ...values,
         content: values.fileUrl,
       });

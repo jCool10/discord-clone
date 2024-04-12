@@ -13,7 +13,7 @@ import {
   ShieldQuestion,
 } from "lucide-react";
 import { useState } from "react";
-import { MemberRole } from "@/types";
+import { MemberRole, MemberWithProfile } from "@/types";
 import { useRouter } from "next/navigation";
 
 import {
@@ -38,6 +38,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
+import { http } from "@/utils/http";
 
 const roleIconMap = {
   GUEST: null,
@@ -63,7 +64,7 @@ export const MembersModal = () => {
         },
       });
 
-      const response = await axios.delete(url);
+      const response = await http.delete(url);
 
       router.refresh();
       onOpen("members", { server: response.data });
@@ -84,7 +85,7 @@ export const MembersModal = () => {
         },
       });
 
-      const response = await axios.patch(url, { role });
+      const response = await http.patch(url, { role });
 
       router.refresh();
       onOpen("members", { server: response.data });
@@ -107,7 +108,7 @@ export const MembersModal = () => {
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="mt-8 max-h-[420px] pr-6">
-          {server?.members?.map((member) => (
+          {server?.members?.map((member: MemberWithProfile) => (
             <div key={member.id} className="flex items-center gap-x-2 mb-6">
               <UserAvatar src={member.profile.imageUrl} />
               <div className="flex flex-col gap-y-1">

@@ -80,8 +80,10 @@ export const ChannelType = {
 export type ChannelType = "TEXT" | "AUDIO" | "VIDEO";
 
 export type ServerWithMembersWithProfiles = Server & {
-  members: Member[];
+  members: (Member & { profile: Profile })[];
 };
+
+export type MemberWithProfile = Member & { profile: Profile };
 
 export interface SuccessResponse<Data> {
   data: Data;
