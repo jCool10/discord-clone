@@ -9,7 +9,9 @@ export const serversApi = {
     http.get<SuccessResponse<Server>>("/api/servers/profile"),
 
   findServersByProfile: () =>
-    http.get<SuccessResponse<Array<Server>>>("/api/servers/profile/all"),
+    http.get("/api/servers/profile/all", {
+      withCredentials: true,
+    }),
 
   findServerByIdAndProfile: (params: Pick<Server, "id">) =>
     http.get<SuccessResponse<Server>>(`/api/servers/${params.id}`),

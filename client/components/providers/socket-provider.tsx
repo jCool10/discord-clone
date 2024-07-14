@@ -1,5 +1,6 @@
 "use client";
 
+import { auth, useAuth } from "@clerk/nextjs";
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
@@ -20,12 +21,13 @@ export const useSocket = () => {
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<any>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const { userId } = useAuth();
 
   useEffect(() => {
     const socketInstance = io(process.env.NEXT_PUBLIC_SITE_URL!, {
       path: "/api/socket/io",
       extraHeaders: {
-        Authorization: "user_2dJiyKgw0WS146gJTjw23QWkpK3",
+        Authorization: userId as string,
       },
     });
 
@@ -42,7 +44,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       socketInstance.disconnect();
     };
-  }, []);
+  }, [userId]);
 
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>

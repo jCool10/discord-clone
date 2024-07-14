@@ -9,8 +9,6 @@ class messagesService {
   getMessages = async (req: Request) => {
     const { cursor, channelId } = req.query as { cursor: string; channelId: string }
 
-    console.log({ cursor, channelId })
-
     if (!channelId) throw new BadRequestError('Channel ID missing')
 
     let messages: Message[] = []
@@ -60,8 +58,6 @@ class messagesService {
     if (messages.length === MESSAGES_BATCH) {
       nextCursor = messages[MESSAGES_BATCH - 1].id
     }
-
-    console.log(messages, nextCursor)
 
     return {
       items: messages,

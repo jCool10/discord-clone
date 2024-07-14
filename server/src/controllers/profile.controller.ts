@@ -5,6 +5,7 @@ import { ProfileService } from '~/services/profile.service'
 
 class profileController {
   checkProfile = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    res.cookie('userId', req.body.id)
     new SuccessResponse({
       message: 'Check profile successfully.',
       data: await ProfileService.checkProfile(req)

@@ -21,8 +21,12 @@ class profileService {
         }
       })
 
+      req.profile = newProfile
+
       return newProfile
     }
+
+    req.profile = profile
 
     return profile
   }

@@ -9,5 +9,6 @@ declare namespace Express {
       createdAt: Date
       updatedAt: Date
     }
+    auth?: any
   }
 }

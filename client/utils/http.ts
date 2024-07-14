@@ -1,15 +1,17 @@
 import axios, { AxiosInstance } from "axios";
-import { auth } from "@clerk/nextjs";
-import { getUserIdFromLocalStorage, setUserIdToLocalStorage } from "./auth";
+// import { getUserId } from "./auth";
+
+axios.defaults.withCredentials = true;
 
 class Http {
   instance: AxiosInstance;
-  // private userId: string;
+  userId: string;
 
   constructor() {
-    // this.userId = getUserIdFromLocalStorage() || "";
+    this.userId = "";
     this.instance = axios.create({
       baseURL: "http://localhost:5000",
+      withCredentials: true,
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",
@@ -18,7 +20,9 @@ class Http {
 
     this.instance.interceptors.request.use(
       (config) => {
-        config.headers.authorization = "user_2dJiyKgw0WS146gJTjw23QWkpK3";
+        // config.headers.Authorization = this.userId;
+        config.withCredentials = true;
+        config.headers.Authorization = "user_2dJiyKgw0WS146gJTjw23QWkpK3";
         return config;
       },
       (error) => {

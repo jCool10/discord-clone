@@ -7,6 +7,13 @@ import cors from 'cors'
 
 export const expressConfig = (app: express.Application) => {
   app
+    .use(
+      cors({
+        origin: true,
+        credentials: true
+      })
+    )
+    .use(cookieParser())
     .use(morgan('dev'))
     .use(helmet.frameguard({ action: 'deny' }))
     .use(helmet.hsts({ maxAge: 2629746000 }))
@@ -30,6 +37,4 @@ export const expressConfig = (app: express.Application) => {
     )
     .use(express.json({ limit: '10kb' }))
     .use(express.urlencoded({ extended: true, limit: '10kb' }))
-    .use(cookieParser())
-    .use(cors({ credentials: true, origin: true }))
 }

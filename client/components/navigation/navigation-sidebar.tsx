@@ -1,7 +1,7 @@
 // "use client";
 
 import { redirect } from "next/navigation";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, currentUser } from "@clerk/nextjs";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { serversApi } from "@/apis/server.api";
 import { Server } from "@/types";
 import { useQueryData } from "@/hooks/use-query-data";
+import { http } from "@/utils/http";
 
 export const NavigationSidebar = async () => {
   const response = await serversApi.findServersByProfile();

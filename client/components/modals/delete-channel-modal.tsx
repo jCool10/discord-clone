@@ -30,7 +30,7 @@ export const DeleteChannelModal = () => {
     try {
       setIsLoading(true);
       const url = qs.stringifyUrl({
-        url: `/channels/${channel?.id}`,
+        url: `/api/channels/${channel?.id}`,
         query: {
           serverId: server?.id,
         },

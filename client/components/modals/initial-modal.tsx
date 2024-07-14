@@ -59,7 +59,9 @@ export const InitialModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await http.post("/servers", values);
+      await http.post("/api/servers", values);
+
+      console.log("first", values);
 
       form.reset();
       router.refresh();

@@ -1,7 +1,9 @@
 import { profileApi } from "@/apis/profile.api";
 import { serversApi } from "@/apis/server.api";
-import { setUserIdToLocalStorage } from "@/utils/auth";
+import { http } from "@/utils/http";
 import { currentUser, redirectToSignIn } from "@clerk/nextjs";
+import axios from "axios";
+import { cookies } from "next/headers";
 
 export const initialProfile = async () => {
   const user = await currentUser();
@@ -9,8 +11,6 @@ export const initialProfile = async () => {
   if (!user) {
     return redirectToSignIn();
   }
-
-  setUserIdToLocalStorage(user.id);
 
   await profileApi.checkProfile({
     id: user.id,
@@ -20,6 +20,8 @@ export const initialProfile = async () => {
   });
 
   const servers = await serversApi.findServersByProfile();
+
+  // const servers = await http.get("/api/servers/profile/all");
 
   return servers.data.data;
 };
